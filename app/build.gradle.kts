@@ -9,6 +9,7 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -27,6 +28,16 @@ android {
         val properties = Properties().apply {
             load(rootProject.file("local.properties").inputStream())
         }
+        buildConfigField(
+            "String",
+            "SUPABASE_URL",
+            "\"${properties["SUPABASE_URL"] ?: ""}\""
+        )
+        buildConfigField(
+            "String",
+            "SUPABASE_API_KEY",
+            "\"${properties["SUPABASE_API_KEY"] ?: ""}\""
+        )
         buildConfigField(
             "String",
             "GEMINI_API_KEY",
@@ -57,7 +68,17 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.compose.material:material:1.5.0")
+    implementation("io.github.jan-tennert.supabase:storage-kt:1.4.7")
+    implementation("io.github.jan-tennert.supabase:compose-auth:1.4.7")
+    val ktor_version = "2.3.13"
+    implementation("io.ktor:ktor-client-android:$ktor_version")
+    implementation("io.ktor:ktor-client-core:$ktor_version")
+    implementation("io.ktor:ktor-utils:$ktor_version")
+    implementation ("androidx.compose.material:material:1.5.0")
     implementation ("androidx.room:room-runtime:2.6.1")
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
     kapt ("androidx.room:room-compiler:2.6.1")
     implementation ("androidx.room:room-ktx:2.6.1")
     implementation("com.google.dagger:hilt-android:2.51")

@@ -6,7 +6,7 @@ import com.example.bookapp.utils.ApiResponse
 
 
 class GetRecommendedBooksUseCase(private val repository: BookRepository) {
-    suspend operator fun invoke(userBooks: List<Book>): ApiResponse<List<Book>> {
+    suspend operator fun invoke(userBooks: List<com.example.bookapp.common.Book>): ApiResponse<List<com.example.bookapp.common.Book>> {
         return repository.getRecommendations(userBooks)
     }
 }
